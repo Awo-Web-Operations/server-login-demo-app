@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+const { Pool, Client } = require('pg');
 const { parse } = require('url');
 require('dotenv').config();
 
@@ -8,12 +8,12 @@ require('dotenv').config();
   user: process.env.PG_DATABASE_USER,
   password : process.env.PG_DATABASE_PASSWORD,
   database: process.env.PG_DATABASE_NAME,
-  max: process.env.MAX_DB_CONNECTION || 5,
-  ssl: {
-    rejectUnauthorized: false,
-  }
 };
 
 
-const pool = new Pool(options);
+const pool = new Client(process.env.POSTGRESS_URL|| options);
+pool.connect()  
+
+
 module.exports = pool;
+  
